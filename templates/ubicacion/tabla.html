@@ -1,0 +1,44 @@
+{% load static %}
+
+{% if object_list %}
+
+<table class="table table-hover" style="text-size=0.9rem;">
+    <thead>
+      <tr>
+        <th scope="col">Cód.Localidad</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Código Postal</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Actualizar</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for ubicacion in object_list  %}
+      <tr>
+        <th scope="row"><strong>{{ ubicacion.localidad }}</strong></th>
+        <td>{{ ubicacion.nombre }}</td>
+        <td>{{ ubicacion.codigo_postal }}</td>
+        <td>
+            <a href="#">
+                {% if ubicacion.activo %}
+                        <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+                    {% else %}
+                    <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                {% endif %}
+            </a>
+        </td>
+        <td><a href="{% url 'ubicaciones:update' ubicacion.pk %}"><img src="{% static 'img/editar.png' %}" width="32" alt="detalle" /></a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% include 'paginacion.html' %}
+
+{% else %}
+
+<div class="alert alert-danger" role="alert">
+    {{ mensaje }}
+</div>
+
+{% endif %}

@@ -1,0 +1,58 @@
+{% load static %}
+
+{% if object_list %}
+<h3>{{criterios}}</h3>
+
+  <table class="table table-hover" style="text-size:0.9px;">
+      <thead>
+        <tr>
+          <th scope="col">Liquidacion</th>
+          <th scope="col">Beneficiario</th>
+          <th scope="col">Código</th>
+          <th scope="col">Importe</th>
+          <th scope="col">Modificado</th>
+          <th scope="col">Pendiente</th>
+          <th scope="col">Actualizar</th>
+          <th scope="col">Cambiar Estado</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+      {% for movmes in object_list  %}
+        <tr>
+          <td>{{ movmes.id_liquidacion }}</td>
+          <td>{{ movmes.beneficiario|upper }}</td>
+          <td>{{ movmes.codigo }}</td>
+          <td> $ {{ movmes.importe|floatformat:"2" }}</td>  
+          <td>{{ movmes.modificado|date:"r"}}</td>      
+              {% if movmes.pendiente %}
+              <td>
+                      <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+              </td>
+                      <td><a href="{% url 'movmes:update' movmes.pk %}"><img src="{% static 'img/editar.png' %}" width="32" /></a></td>
+                      <td><a href="{% url 'movmes:cambiar_estado' movmes.pk %}"><img src="{% static 'img/cambiar-estado.png' %}" width="32" alt="detalle" /></a></td>            
+              {% else %}
+                  <td>
+                    <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                  </td>
+                  <td></td>
+                  <td></td>
+              {% endif %}
+
+
+
+
+        </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+
+  {% include 'paginacion.html' %}
+
+{% else %}
+
+  <div class="alert alert-danger" role="alert">
+      {{ mensaje }}
+  </div>
+
+{% endif %}

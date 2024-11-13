@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{titulo}}
+{% endblock title %}
+
+{% block subtitle %}
+<h2 class="pb-2 border-bottom">{{subtitulo}}</h2>
+{% endblock subtitle %}
+
+
+{% block content %}
+
+<div class="container">
+
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Descripción</th>
+            <th scope="col">Año</th>
+            <th scope="col">Período</th>
+            <th scope="col">Fecha de Pago</th>
+            <th scope="col">Estado</th>
+            <th scope="col">EJECUTAR</th>
+            <th scope="col">Fecha de última ejecución</th>
+            {# <th scope="col">CSV</th> #}
+            <th scope="col">XLSX</th>
+            {# <th scope="col">PDF</th> #}
+          </tr>
+        </thead>
+        <tbody>
+        {% for liquidacion in object_list  %}
+          <tr>
+            <th scope="row">{{ liquidacion.descripcion }}</th>
+            <td>{{ liquidacion.anio }}</td>
+            <td>{{ liquidacion.mes }}</td>
+            <td>{{ liquidacion.fecha_pago }}</td>
+            {% if liquidacion.cerrado %}
+              <td><img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo"></td>
+              <td>No se puede EJECUTAR / CERRADA!</td>
+            {% else %}
+            <td>
+              <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+            </td>
+            <td>
+              <a onClick="openLoader()" href="{% url 'detalle_liquidacion:generar_liquidacion' liquidacion.pk %}" class="btn btn-danger">
+                Ejecutar
+              </a>
+            </td>
+
+            {% endif %}
+
+            {% if liquidacion.fecha_ultima_ejecucion %}
+              <td>
+                {{ liquidacion.fecha_ultima_ejecucion}}
+              </td>
+              {% comment "" %}
+              <td>
+                <a href="{% url 'detalle_liquidacion:reporte_csv' liquidacion.pk %}">
+                  <img src="{% static 'img/csv.png' %}" width="32" alt="Reporte CSV"/>
+                </a>
+              </td>
+              {% endcomment %}
+              <td>
+                <a href="{% url 'detalle_liquidacion:reporte_excel' liquidacion.pk %}">
+                  <img src="{% static 'img/xlsx.png' %}" width="32" alt="Reporte excel"/>
+                </a>
+              </td>
+              {% comment %}
+              <td>
+                <a href="{% url 'detalle_liquidacion:reporte_pdf' liquidacion.pk %}">
+                  <img src="{% static 'img/pdf.png' %}" width="32" alt="Reporte excel"/>
+                </a>
+              </td> 
+              {% endcomment %}             
+            {% else %}
+              <td>Sin ejecución</td>
+              <td></td>
+            {% endif %}            
+          </tr>
+        {% empty %}
+          </table>
+          <div class="alert alert-danger" role="alert">
+            {{ mensaje }}
+          </div>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div  class="d-flex justify-content-center">
+      <div id="loadingModal" style="display: none;" >
+        <button class="btn btn-success" type="button" disabled>
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Procesando...
+        </button>
+      </div>
+   </div>
+    
+    {% if liquidacion_ejecutada %}
+    <div class="container" style="margin-left: auto; margin-right: auto; width: 40%;">
+
+      <div class="card" style="width: 100%;">
+        <div class="card-header">
+          {{ liquidacion_ejecutada }}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Agentes Liquidados {{beneficiarios_count}}</li>
+          <li class="list-group-item">Registros Generados {{registros_count}}</li>
+
+         
+            {% for error in errores %}
+              <li class="list-group-item">{{error}}</li>
+            {% endfor %}
+
+          
+          <li class="list-group-item">Ejecución Finalizada</li>
+
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<script>
+
+  function openLoader() {
+      document.getElementById("loadingModal").style.display = "block";
+    }
+  
+</script>
+
+{% endblock content %}
+
+{# Fuente openLoader(): https://stackoverflow.com/questions/71138466/django-display-work-in-progress-loading-after-form-submit-until-result-is-re #}

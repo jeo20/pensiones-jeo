@@ -1,0 +1,88 @@
+{% load static %}
+<html>
+<head>
+<style>
+    @page {
+        size: a4 landscape;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 750pt; top: 50pt; height: 100pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 750pt; top: 90pt; height: 412pt;  font-size: 6pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content">
+
+      <h1>{{ titulo }}</h1>
+      <h2>{{ subtitulo }}</h2>
+            
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - Página <pdf:pagenumber>
+        de <pdf:pagecount>
+    </div>
+
+<div class="container">
+
+    {% for i in object_list  %}
+    <h1>{{i.localidad}}</h1>
+    <h2>{{i.codigo}}</h2>
+    <h2>{{i.importe__sum|floatformat:2}}</h2>
+    {% endfor %}
+
+    {% comment %} <table style="font-size: 6pt; width=100%">
+        <thead>
+          <tr>
+            <th>ID_LIQ</th>
+            <th>RECIBO</th>
+            <th>DESC_LOC</th>
+            <th>ID_LOC</th>
+            <th>LEGAJO</th>
+            <th>BENEFICIARIO</th>
+            <th>TP</th>
+            <th>DOCUMENTO</th>
+            <th>CUIL</th>
+            <th>CONCEPTO</th>
+            <th>DESC_CONCEPTO</th>
+            <th>IMPORTE</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for detalle in object_list  %}
+          <tr>
+            <th scope="row">{{ detalle.liquidacion.id }}</th>
+            <td align="center">{{ detalle.recibo|stringformat:"010d" }}</td>
+            <td width="15%">{{ detalle.localidad.nombre }}</td>
+            <td align="center">{{ detalle.localidad.id|stringformat:"02d" }}</td>
+            <td aligh="center">{{ detalle.legajo|stringformat:"06d" }}</td>
+            <td width="20%">{{ detalle.beneficiario }}</td>
+            <td>{{ detalle.tipo_pension }}</td>
+            <td>{{ detalle.documento }}</td>
+            <td>{{ detalle.cuil }}</td>
+            <td>{{ detalle.codigo }}</td>
+            <td width="15%">{{ detalle.codigo_descripcion|truncatechars:30 }}</td>
+            <td align="right">$ {{ detalle.importe|floatformat:2 }}</td>
+          </tr>
+        {% empty %}
+        </table>
+        <div class="alert alert-danger" role="alert">
+          {{ mensaje }}
+        </div>
+        {% endfor %}
+        </tbody>
+    </table> {% endcomment %}
+</div>
+
+</body>
+</html>

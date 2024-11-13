@@ -1,0 +1,53 @@
+{% load static %}
+
+{% if object_list %}
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Aplica a</th>
+        <th scope="col">Fórmula</th>
+        <th scope="col">Signo</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Actualizar</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for codigo in object_list  %}
+      <tr>
+        <th scope="row"><strong>{{ codigo.codigo_numerico }}</strong></th>
+        <td>{{ codigo.descripcion }}</td>
+        <td>{{ codigo.tipo }}</td>
+        <td>{{ codigo.pension }}</td>
+        <td>{{ codigo.calculo }}</td>
+        <td>{{ codigo.signo }}</td>
+        <td align="right">$ {{ codigo.valor|floatformat:2 }}</td>
+
+        <td>
+            <a href="{% url 'conceptos:cambiar_estado' codigo.pk %}">
+                {% if codigo.activo %}
+                        <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+                    {% else %}
+                    <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                {% endif %}
+            </a>
+        </td>
+        <td><a href="{% url 'conceptos:actualizar' codigo.pk %}""><img src="{% static 'img/editar.png' %}" width="32" alt="detalle" /></a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% include 'paginacion.html' %}
+
+{% else %}
+
+<div class="alert alert-danger" role="alert">
+    {{ mensaje }}
+</div>
+
+{% endif %}

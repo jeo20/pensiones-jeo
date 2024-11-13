@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-flex" id="custom-cards">
+  
+  <h2 class="pb-2 border-bottom">Proceso de Liquidación</h2>
+
+  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+
+    <div class="col">
+      <div class="card card-cover h-100 overflow-hidden text-white bg-danger rounded-5 shadow-lg" >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <img src="{% static 'img/liquidacion.png' %}" alt="Bootstrap" width="64" height="64" class="rounded-circle border border-white">
+          <h4 class="fw-bold">Crear / Elegir Liquidación Abierta</h4>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+              </svg>                
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+              <small>Total abiertas</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+              <small>{{liquidaciones}}</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col">
+      <div class="card card-cover h-100 overflow-hidden text-white bg-success rounded-5 shadow-lg" >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <img src="{% static 'img/novedades.png' %}" alt="Bootstrap" width="64" height="64" class="rounded-circle border border-white">
+          <h4 class="fw-bold">Crear / Actualizar Beneficiarios y Novedades Mensuales</h4>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+              </svg>
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+              <small>Total</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+              <small>{{beneficiarios}}</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card card-cover h-100 overflow-hidden text-white bg-warning rounded-5 shadow-lg" >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <img src="{% static 'img/concepto.png' %}" alt="Bootstrap" width="64" height="64" class="rounded-circle border border-white">
+          <h4 class="fw-bold">Actualizar Conceptos</h4>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+              </svg>              
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
+              <small>Total activos</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+              <small>{{conceptos}}</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}

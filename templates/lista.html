@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{titulo}}{% endblock title %}
+
+
+{% block subtitle %}
+<h2 class="pb-2 border-bottom">{{subtitulo}}</h2>
+{% endblock subtitle %}
+
+{% block content %}
+
+  {% include template_tabla %}
+
+{% endblock content %}

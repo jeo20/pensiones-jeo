@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}{{titulo}}{% endblock title %}
+
+
+{% block subtitle %}
+<h2 class="pb-2 border-bottom">{{subtitulo}}</h2>
+{% endblock subtitle %}
+
+{% block content %}
+
+<div class="container">
+    <form method="POST" action="">
+    
+        <table class="table" style="margin-left: auto; margin-right: auto; width: 60%;">
+            {{ form.as_table }}
+            {% csrf_token %}
+      
+        </table>
+              <div style="margin-top: 15px; margin-left: auto; margin-right: auto; width: 20%;">
+                  <button type="SUBMIT" style="margin: auto;">Generar reporte</button>
+              </div>
+
+    </form>
+
+    {% if forms.errors %}
+    <div class="alert alert-warning" role="alert">
+        <ul>
+        {% for error in forms.errors %}
+            <li>{{error}}</li>
+        {% endfor %}
+        </ul>
+    <div>
+    {% endif %}
+
+    {% if errores %}
+    <div class="alert alert-warning" role="alert">
+        <ul>
+        {% for error in errores %}
+            <li>{{error}}</li>
+        {% endfor %}
+        </ul>
+    <div>
+    {% endif %}
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+</script>
+
+{% endblock content %}

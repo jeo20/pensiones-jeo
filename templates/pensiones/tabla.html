@@ -1,0 +1,44 @@
+{% load static %}
+
+{% if object_list %}
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Código Numérico</th>
+        <th scope="col">Descripción Corta</th>
+        <th scope="col">Detalles</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Actualizar</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for pensiones in object_list  %}
+      <tr>
+        <th scope="row"><strong>{{ pensiones.codigo_numerico }}</strong></th>
+        <td>{{ pensiones.descripcion_corta }}</td>
+        <td>{{ pensiones.descripcion|truncatechars:50 }}</td>
+        <td>
+            <a href="#">
+                {% if pensiones.activo %}
+                        <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+                    {% else %}
+                    <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                {% endif %}
+            </a>
+        </td>
+        <td><a href="{% url 'pensiones:update' pensiones.id %}"><img src="{% static 'img/editar.png' %}" width="32" alt="detalle" /></a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% include 'paginacion.html' %}
+
+{% else %}
+
+<div class="alert alert-danger" role="alert">
+    {{ mensaje }}
+</div>
+
+{% endif %}

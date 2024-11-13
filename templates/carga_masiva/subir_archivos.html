@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{titulo}}{% endblock title %}
+
+
+{% block subtitle %}
+<h2 class="pb-2 border-bottom">{{subtitulo}}</h2>
+{% endblock subtitle %}
+
+{% block content %}
+
+<div class="container">
+    <form enctype="multipart/form-data" method="post" action="">
+    
+        <table style="margin-left: auto; margin-right: auto; width: 60%;">
+            {{ form.as_table }}
+            {% csrf_token %}
+      
+        </table>
+              <div style="margin-top: 15px; margin-left: auto; margin-right: auto; width: 20%;">
+                  <button type="SUBMIT" onClick="openLoader()" style="margin: auto;">Subir archivo</button>
+              </div>
+
+    </form>
+
+
+    <div  class="d-flex justify-content-center">
+        <div id="loadingModal" style="display: none;" >
+          <button class="btn btn-success" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Procesando...
+          </button>
+        </div>
+     </div>
+
+    {% if errores %}
+    <div class="alert alert-warning" role="alert">
+        <ul>
+        {% for error in errores %}
+            <li>{{error}}</li>
+        {% endfor %}
+        </ul>
+    <div>
+    {% endif %}
+</div>
+
+
+<script>
+
+    function openLoader() {
+        document.getElementById("loadingModal").style.display = "block";
+      }
+    
+    </script>
+
+{% endblock content %}

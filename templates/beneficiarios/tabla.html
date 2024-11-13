@@ -1,0 +1,49 @@
+{% load static %}
+
+{% if object_list %}
+
+<table class="table table-hover" style="text-size=0.9rem;">
+    <thead>
+      <tr>
+        <th scope="col">Imagen</th>
+        <th scope="col">Legajo</th>
+        <th scope="col">Apellido y Nombre</th>
+        <th scope="col">Documento</th>
+        <th scope="col">Tipo Pensión</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Detalle</th>
+        <th scope="col">Actualizar</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for beneficiario in object_list  %}
+      <tr>
+        <th scope="row"><img src="{{ beneficiario.imagen.url }}" class="rounded float-start" width="32px" alt="imagen de perfil" /></th>
+        <td>{{ beneficiario.ubicacion }} - {{ beneficiario.legajo }}</td>
+        <td>{{ beneficiario.apellido_y_nombre|upper }}</td>
+        <td>{{ beneficiario.documento }} Tipo: {{ beneficiario.documento_tipo }}</td>
+        <td>{{ beneficiario.tipo_pension }}</td>
+        <td>
+            {% if beneficiario.activo %}
+                    <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+                {% else %}
+                 <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                {% endif %}
+        </td>
+        <td><a href="{{ beneficiario.get_absolute_url }}"><img src="{% static 'img/detalle.png' %}" width="32" alt="detalle" /></a></td>
+        <td><a href="{% url 'beneficiarios:update' beneficiario.pk %}"><img src="{% static 'img/editar.png' %}" width="32" /></a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% include 'paginacion.html' %}
+
+{% else %}
+
+<div class="alert alert-danger" role="alert">
+    {{ mensaje }}
+</div>
+
+{% endif %}
+

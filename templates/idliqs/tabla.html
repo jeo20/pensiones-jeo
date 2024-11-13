@@ -1,0 +1,65 @@
+{% load static %}
+
+{% if object_list %}
+
+<table class="table table-hover" style="text-size=0.9rem;">
+    <thead>
+      <tr>
+        <th scope="col">Identificador</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Año</th>
+        <th scope="col">Período</th>
+        <th scope="col">Fecha de Pago</th>
+        <th scope="col">ESTADO</th>
+        <th scope="col">F. Últ. Ejecución</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Cerrar</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for liquidacion in object_list  %}
+      <tr>
+        <th scope="row">{{ liquidacion.id }}</th>
+        <td>{{ liquidacion.descripcion }}</td>
+        <td>{{ liquidacion.anio }}</td>
+        <td>{{ liquidacion.mes }}</td>
+        <td>{{ liquidacion.fecha_pago }}</td>
+        {% if liquidacion.cerrado %}
+        <td><img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Ver detalle</td>
+        {% else %}
+        <td><img src="{% static 'img/activo.png' %}" width="32px" alt="activo"></td>
+        <td>
+          {% if liquidacion.fecha_ultima_ejecucion %}
+            {{liquidacion.fecha_ultima_ejecucion}}
+          {% else %}
+            -- No Ejecutada --
+          {% endif %}
+        </td>
+        <td><a href="{% url 'id_liquidacion:update' liquidacion.pk %}"><img src="{% static 'img/editar.png' %}" width="32" alt='update'/></a></td>
+        <td><a href="{% url 'id_liquidacion:cambio_estado' liquidacion.pk %}"><img src="{% static 'img/cerrar.png' %}" width="32" alt='cerrar' /></a></td>
+        <td></td>
+        {% endif %}
+      </tr>
+    {% empty %}
+    </table>
+    <div class="alert alert-danger" role="alert">
+      {{ mensaje }}
+    </div>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% include 'paginacion.html' %}
+
+{% else %}
+
+  <div class="alert alert-danger" role="alert">
+    {{ mensaje }}
+  </div>
+
+{% endif %}

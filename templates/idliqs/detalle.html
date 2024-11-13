@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Liquidaciones{% endblock title %}
+
+
+{% block subtitle %}
+<h2 class="pb-2 border-bottom">Detalle Liquidación</h2>
+{% endblock subtitle %}
+
+{% block content %}
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">RECIBO</th>
+        <th scope="col">LOC</th>
+        <th scope="col">LEGAJO</th>
+        <th scope="col">BENEFICIARIO</th>
+        <th scope="col">DOCUMENTO</th>
+        <th scope="col">T.PENSION</th>
+        <th scope="col">CODIGO</th>
+        <th scope="col">DESCRIPCION</th>
+        <th scope="col">T. CODIGO</th>
+        <th scope="col">IMPORTE</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for detalle in object_list  %}
+      <tr>
+        <th scope="row">{{ detalle.recibo|rjust:"6" }}</th>
+        <td>{{ detalle.localidad }}</td>
+        <td>{{ detalle.legajo }}</td>
+        <td>{{ detalle.beneficiario|upper }}</td>
+        <td>{{ detalle.documento }}</td>
+        <td>{{ detalle.tipo_pension }}</td>
+        <td>{{ detalle.codigo }}</td>
+        <td>{{ detalle.codigo_descripcion }}</td>
+        <td>{{ detalle.codigo_tipo }}</td>
+        <td class="text-end"> $ {{ detalle.importe|floatformat:"2"}}</td>
+
+      </tr>
+      {% empty %}
+      <tr>
+        <div class="alert alert-warning" role="alert">
+            No hay registros relacionados a esa liquidacion
+          </div>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

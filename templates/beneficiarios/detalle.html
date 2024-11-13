@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Beneficiarios{% endblock title %}
+
+{% block subtitle %}
+<h2 class="pb-2 border-bottom">Información sobre Beneficiarios</h2>
+{% endblock subtitle %}
+
+{% block content %}
+
+<table class="table table-bordered border-primary">
+  <tr>
+    <td>
+      <div class="text-center">
+      <img src="{{object.imagen.url}}" class="rounded mx-auto d-block" width="150px" alt="imagen perfil">
+      </div>
+    </td>
+  <td>
+  <div class="card">
+      <div class="card-header">
+        Apellido y Nombre <h2>{{ object.apellido_y_nombre|upper }}</h2>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><h4>LEGAJO {{ object.ubicacion }} - {{ object.legajo }}</h4></li>
+        <li class="list-group-item">DOCUMENTO {{ object.documento }} TIPO {{ object.documento_tipo }} GÉNERO {{ object.genero }}</li>
+        <li class="list-group-item">CUIL {{ object.cuil }}</li>
+        <li class="list-group-item">DIRECCION {{ object.direccion }}</li>
+        <li class="list-group-item">TIPO PENSIÓN {{object.tipo_pension }}</li>
+        <li class="list-group-item">
+          ACTIVO {% if object.activo %}
+                      <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+                  {% else %}
+                  <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                  {% endif %}
+      </li>
+      <li class="list-group-item">
+          COBRA SAC {% if object.cobra_sac %}
+                      <img src="{% static 'img/activo.png' %}" width="32px" alt="activo">
+                  {% else %}
+                  <img src="{% static 'img/inactivo.png' %}" width="32px" alt="inactivo">
+                  {% endif %}
+      </li>
+        <li class="list-group-item">CREADO {{object.creado|date:"r"}}</li>
+        <li class="list-group-item">MODIFICADO {{object.modificado|date:"r"}} </li>
+      </ul>
+    </div>
+  </td>
+  </tr>
+  </table>
+  <div class="text-center">
+    <a class="btn btn-warning" href="{% url 'beneficiarios:crear' %}"><img src="{% static 'img/perfil.png' %}" width="16" /> Nuevo </a>
+    <a class="btn btn-warning" href="{% url 'beneficiarios:update' beneficiario.pk %}"><img src="{% static 'img/editar.png' %}" width="16" /> Editar </a>
+    <a class="btn btn-warning" href="{% url 'beneficiarios:buscar' %}"><img src="{% static 'img/buscar.png' %}" width="16" /> Buscar </a>
+  </div>
+{% endblock content %}
+
